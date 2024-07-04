@@ -23,7 +23,17 @@ body {
 }
 
 .hero {
-  padding: 128px;
+  height: 100%;
+  justify-content: center;
+}
+
+.hero > .hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -999;
 }
 
 .hero > .hero-content {
@@ -33,6 +43,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
 }
 
@@ -46,9 +57,9 @@ body {
   font-family: "Noto Sans", sans-serif;
   font-weight: 400;
   font-size: 3.5rem;
-  margin: 16px 0;
 }
 
 .hero > .hero-content > p {
   font-family: "Noto Sans", sans-serif;
+  margin-top: 16px;
 }
