@@ -25,10 +25,8 @@ function randomInt(min, max) {
 function generatePoints() {
   points = [];
 
-  for(let i = 0; i < (document.body.clientHeight * document.body.clientWidth) / 1500; i++) {
-    if(Math.floor(Math.random() * 3) == 1) {
-      newPoint();
-    }
+  for(let i = 0; i < (Math.max(window.innerHeight, window.innerWidth)) / 10; i++) {
+    newPoint();
   }
 }
 
@@ -61,7 +59,7 @@ document.body.addEventListener("mouseenter", (ev) => {
 document.body.addEventListener("mousemove", (ev) => {
   isMouse = true;
   mousePos.x = ev.clientX;
-  mousePos.y = ev.clientY;
+  mousePos.y = ev.clientY + window.scrollY;
 })
 
 document.body.addEventListener("mouseleave", (ev) => {
@@ -82,11 +80,11 @@ setInterval(() => {
     }
     heroCtx.fillRect(point.x - 0.75, point.y - 0.75, 1.5, 1.5);
     const distance = Math.sqrt((mousePos.x - point.x) ** 2 + (mousePos.y - point.y) ** 2);
-    if(distance < 125) {
+      if(distance < Math.max(window.innerHeight, window.innerWidth) / 10) {
       drawnLines.push({
         start: {
           x: mousePos.x,
-          y: mousePos.y + window.scrollY
+          y: mousePos.y
         },
         end: {
           x: point.x,
@@ -99,7 +97,7 @@ setInterval(() => {
 
   drawnLines.forEach((line) => {
     if(!isMouse) return;
-    heroCtx.strokeStyle = `rgba(230, 230, 230, ${1 - line.distance / 125})`;
+    heroCtx.strokeStyle = `rgba(230, 230, 230, ${1 - line.distance / (Math.max(window.innerHeight, window.innerWidth) / 10)})`;
     heroCtx.beginPath();
     heroCtx.moveTo(line.start.x, line.start.y);
     heroCtx.lineTo(line.end.x, line.end.y);
