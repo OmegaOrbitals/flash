@@ -8,9 +8,19 @@ let mousePos = {};
 heroCanvas.height = document.body.clientHeight;
 heroCanvas.width = document.body.clientWidth;
 
-heroCtx.strokeStyle = "rgba(200, 200, 200, 0.65";
+heroCtx.strokeStyle = "rgba(230, 230, 230, 0.65)";
 heroCtx.lineWidth = 1;
-heroCtx.fillStyle = "white";
+heroCtx.fillStyle = "rgba(200, 200, 200, 0.85)";
+
+function randomFloat(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function randomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
 
 function generatePoints() {
   points = [];
@@ -22,10 +32,11 @@ function generatePoints() {
 
 function newPoint() {
   points.push({
-    x: 0,
-    y: Math.floor(Math.random() * document.body.clientHeight),
+    x: randomInt(0, document.body.clientWidth),
+    y: randomInt(0, document.body.clientHeight),
     speed: {
-      x: Math.random() * 1
+      x: randomFloat(-0.5, 0.5),
+      y: randomFloat(-0.5, 0.5)
     }
   })
 }
@@ -50,7 +61,8 @@ setInterval(() => {
 
   points.forEach((point, i) => {
     point.x += point.speed.x;
-    if(point.x > document.body.clientWidth) {
+    point.y += point.speed.y;
+    if((point.x >= document.body.clientWidth || point.x <= 0) || (point.y >= document.body.clientHeight || point.y <= 0)) {
       points.splice(i, 1);
       return newPoint();
     }
