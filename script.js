@@ -4,12 +4,13 @@ const heroCtx = heroCanvas.getContext("2d");
 let points = [];
 let drawnLines = [];
 let mousePos = {};
+let isMouse = false;
 
 heroCanvas.height = document.body.clientHeight;
 heroCanvas.width = document.body.clientWidth;
 
-heroCtx.strokeStyle = "rgba(230, 230, 230, 0.65)";
-heroCtx.lineWidth = 1;
+heroCtx.strokeStyle = "rgba(230, 230, 230, 0.3)";
+heroCtx.lineWidth = 2;
 heroCtx.fillStyle = "rgba(200, 200, 200, 0.85)";
 
 function randomFloat(min, max) {
@@ -25,8 +26,10 @@ function randomInt(min, max) {
 function generatePoints() {
   points = [];
 
-  for(let i = 0; i < (document.body.clientHeight * document.body.clientWidth) * 0.0001; i++) {
-    newPoint();
+  for(let i = 0; i < (document.body.clientHeight * document.body.clientWidth) / 1000; i++) {
+    if(Math.floor(Math.random() * 3) == 1) {
+      newPoint();
+    }
   }
 }
 
@@ -50,13 +53,25 @@ function drawPoints() {
 generatePoints();
 drawPoints();
 
-document.addEventListener("mousemove", (ev) => {
+document.addEventListener("mouseenter", (ev) => {
+  isMouse = true;
   mousePos.x = ev.clientX;
-  mousePos.y = document.body.scrollTop + ev.clientY;
+  mousePos.y = ev.clientY;
+})
+
+document.addEventListener("mousemove", (ev) => {
+  isMouse = true;
+  mousePos.x = ev.clientX;
+  mousePos.y = ev.clientY;
+})
+
+document.addEventListener("mouseleave", (ev) => {
+  isMouse = false;
 })
 
 setInterval(() => {
   heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+
   drawnLines = [];
 
   points.forEach((point, i) => {
@@ -68,11 +83,11 @@ setInterval(() => {
     }
     heroCtx.fillRect(point.x - 0.75, point.y - 0.75, 1.5, 1.5);
     const distance = Math.sqrt((mousePos.x - point.x) ** 2 + (mousePos.y - point.y) ** 2);
-    if(distance < 150) {
+    if(distance < 100) {
       drawnLines.push({
         start: {
           x: mousePos.x,
-          y: mousePos.y
+          y: mousePos.y + window.scrollY
         },
         end: {
           x: point.x,
@@ -83,6 +98,7 @@ setInterval(() => {
   })
 
   drawnLines.forEach((line) => {
+    if(!isMouse) return;
     heroCtx.beginPath();
     heroCtx.moveTo(line.start.x, line.start.y);
     heroCtx.lineTo(line.end.x, line.end.y);
