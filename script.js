@@ -25,7 +25,7 @@ function randomInt(min, max) {
 function generatePoints() {
   points = [];
 
-  for(let i = 0; i < (document.body.clientHeight * document.body.clientWidth) / 2000; i++) {
+  for(let i = 0; i < (document.body.clientHeight * document.body.clientWidth) / 1500; i++) {
     if(Math.floor(Math.random() * 3) == 1) {
       newPoint();
     }
