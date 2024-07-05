@@ -82,7 +82,7 @@ setInterval(() => {
     }
     heroCtx.fillRect(point.x - 0.75, point.y - 0.75, 1.5, 1.5);
     const distance = Math.sqrt((mousePos.x - point.x) ** 2 + (mousePos.y - point.y) ** 2);
-    if(distance < 100) {
+    if(distance < 125) {
       drawnLines.push({
         start: {
           x: mousePos.x,
@@ -99,7 +99,7 @@ setInterval(() => {
 
   drawnLines.forEach((line) => {
     if(!isMouse) return;
-    heroCtx.strokeStyle = `rgba(230, 230, 230, ${1 - line.distance / 100})`;
+    heroCtx.strokeStyle = `rgba(230, 230, 230, ${1 - line.distance / 125})`;
     heroCtx.beginPath();
     heroCtx.moveTo(line.start.x, line.start.y);
     heroCtx.lineTo(line.end.x, line.end.y);
