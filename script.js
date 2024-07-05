@@ -9,8 +9,7 @@ let isMouse = false;
 heroCanvas.height = document.body.clientHeight;
 heroCanvas.width = document.body.clientWidth;
 
-heroCtx.strokeStyle = "rgba(230, 230, 230, 0.3)";
-heroCtx.lineWidth = 2;
+heroCtx.lineWidth = 1;
 heroCtx.fillStyle = "rgba(200, 200, 200, 0.85)";
 
 function randomFloat(min, max) {
@@ -26,7 +25,7 @@ function randomInt(min, max) {
 function generatePoints() {
   points = [];
 
-  for(let i = 0; i < (document.body.clientHeight * document.body.clientWidth) / 1000; i++) {
+  for(let i = 0; i < (document.body.clientHeight * document.body.clientWidth) / 2000; i++) {
     if(Math.floor(Math.random() * 3) == 1) {
       newPoint();
     }
@@ -53,19 +52,19 @@ function drawPoints() {
 generatePoints();
 drawPoints();
 
-document.addEventListener("mouseenter", (ev) => {
+document.body.addEventListener("mouseenter", (ev) => {
   isMouse = true;
   mousePos.x = ev.clientX;
   mousePos.y = ev.clientY;
 })
 
-document.addEventListener("mousemove", (ev) => {
+document.body.addEventListener("mousemove", (ev) => {
   isMouse = true;
   mousePos.x = ev.clientX;
   mousePos.y = ev.clientY;
 })
 
-document.addEventListener("mouseleave", (ev) => {
+document.body.addEventListener("mouseleave", (ev) => {
   isMouse = false;
 })
 
@@ -92,13 +91,15 @@ setInterval(() => {
         end: {
           x: point.x,
           y: point.y
-        }
+        },
+        distance: distance
       })
     }
   })
 
   drawnLines.forEach((line) => {
     if(!isMouse) return;
+    heroCtx.strokeStyle = `rgba(230, 230, 230, ${1 - line.distance / 100})`;
     heroCtx.beginPath();
     heroCtx.moveTo(line.start.x, line.start.y);
     heroCtx.lineTo(line.end.x, line.end.y);
@@ -109,7 +110,6 @@ setInterval(() => {
 window.addEventListener("resize", () => {
   heroCanvas.height = document.body.clientHeight;
   heroCanvas.width = document.body.clientWidth;
-  heroCtx.strokeStyle = "white";
   heroCtx.lineWidth = 1;
   heroCtx.fillStyle = "white";
 
