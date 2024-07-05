@@ -8,7 +8,7 @@ let mousePos = {};
 heroCanvas.height = document.body.clientHeight;
 heroCanvas.width = document.body.clientWidth;
 
-heroCtx.strokeStyle = "white";
+heroCtx.strokeStyle = "rgba(200, 200, 200, 0.65";
 heroCtx.lineWidth = 1;
 heroCtx.fillStyle = "white";
 
@@ -16,17 +16,17 @@ function generatePoints() {
   points = [];
 
   for(let i = 0; i < (document.body.clientHeight * document.body.clientWidth) * 0.0001; i++) {
-    points.push({
-      x: Math.floor(Math.random() * document.body.clientWidth),
-      y: Math.floor(Math.random() * document.body.clientHeight)
-    })
+    newPoint();
   }
 }
 
 function newPoint() {
   points.push({
     x: 0,
-    y: Math.floor(Math.random() * document.body.clientHeight)
+    y: Math.floor(Math.random() * document.body.clientHeight),
+    speed: {
+      x: Math.random() * 1
+    }
   })
 }
 
@@ -49,7 +49,7 @@ setInterval(() => {
   drawnLines = [];
 
   points.forEach((point, i) => {
-    point.x += Math.random() * 1;
+    point.x += point.speed.x;
     if(point.x > document.body.clientWidth) {
       points.splice(i, 1);
       return newPoint();
