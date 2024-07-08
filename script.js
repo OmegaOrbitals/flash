@@ -35,8 +35,8 @@ function newPoint() {
     x: randomInt(0, document.body.clientWidth),
     y: randomInt(0, document.body.clientHeight),
     speed: {
-      x: randomFloat(-0.5, 0.5),
-      y: randomFloat(-0.5, 0.5)
+      x: randomFloat(-0.2, 0.2),
+      y: randomFloat(-0.2, 0.2)
     }
   })
 }
